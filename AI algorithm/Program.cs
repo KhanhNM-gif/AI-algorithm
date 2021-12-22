@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AI_algorithm
 {
@@ -12,7 +8,7 @@ namespace AI_algorithm
     {
         static void Main(string[] args)
         {
-            Graph g = new Graph();
+            Graph2 g = new Graph2();
             g.ReadFileInput(@"input.txt", true, out string start, out string end);
             //g.ReadFileInput(@"C:\Users\minhk\Desktop\input.txt", true, out string start, out string end);
 
@@ -23,6 +19,8 @@ namespace AI_algorithm
             //g.DFS(start, end, sWriter);
             //g.BestFirstSearch(start, end, sWriter);
             //g.HillClimbSearch(start, end, sWriter);
+
+            //g.ASearchAlgorithm(start, end, sWriter);
 
             sWriter.Flush();
             Console.WriteLine("Hoan thanh xuat file");
