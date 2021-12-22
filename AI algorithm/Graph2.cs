@@ -165,7 +165,7 @@ namespace AI_algorithm
                     bool isFirst = true;
                     foreach (var item in list)
                     {
-                        WirteFile2(streamWriter, Format, isFirst ? s : "", item.Item1, item.Item2, w[item.Item1], item.Item2, w[item.Item1] + item.Item2, isFirst ? string.Join(",", list1.Reverse().Select(x => x.Item1 + (TotalCost + w[x.Item1] + x.Item2))) : "", ((queue != null && isFirst) ? string.Join(",", queue.Select(x => x.Item2 + (w[x.Item2] + x.Item3))) : ""));
+                        WirteFile2(streamWriter, Format, isFirst ? s : "", item.Item1, item.Item2, w[item.Item1], item.Item2 + TotalCost, w[item.Item1] + item.Item2 + TotalCost, isFirst ? string.Join(",", list1.Reverse().Select(x => x.Item1 + (TotalCost + w[x.Item1] + x.Item2))) : "", ((queue != null && isFirst) ? string.Join(",", queue.Select(x => x.Item2 + (w[x.Item2] + x.Item3))) : ""));
                         if (isFirst) isFirst = false;
                     }
                 }
@@ -195,7 +195,7 @@ namespace AI_algorithm
             List<Tuple<string, string>> t = new List<Tuple<string, string>>();
 
             string Format = "| {0} | {1} | {2} |";
-            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(15), "Hàng Đợi".CenterString(15)));
+            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(20), "Hàng Đợi".CenterString(30)));
 
             queue.Enqueue(new Tuple<string, string>(s, s));
 
@@ -203,11 +203,11 @@ namespace AI_algorithm
             {
                 Tuple<string, string> tuple = queue.Dequeue();
                 t.Add(tuple);
+                s = tuple.Item2;
 
-                var c = tuple.Item2;
                 if (s == e)
                 {
-                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(15), "".CenterString(15)));
+                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(20), "".CenterString(30)));
                     streamWriter.Write($"\nĐường đi:{PrintWayToFile(t, tuple, s1, e)}");
                     return;
                 }
@@ -219,7 +219,7 @@ namespace AI_algorithm
                         queue.Enqueue(new Tuple<string, string>(s, val));
                 }
 
-                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list) : "").CenterString(15), string.Join(",", queue.Select(x => x.Item2).ToArray()).CenterString(15)));
+                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list) : "").CenterString(20), string.Join(",", queue.Select(x => x.Item2).ToArray()).CenterString(30)));
             }
             streamWriter.WriteLine($"\nKhông tìm thấy đường");
         }
@@ -232,7 +232,7 @@ namespace AI_algorithm
             List<Tuple<string, string>> t = new List<Tuple<string, string>>();
 
             string Format = "| {0} | {1} | {2} |";
-            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(15), "Stack".CenterString(15)));
+            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(20), "Stack".CenterString(30)));
 
             stack.Push(new Tuple<string, string>(s, s));
 
@@ -244,7 +244,7 @@ namespace AI_algorithm
                 s = tuple.Item2;
                 if (s == e)
                 {
-                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(15), "".CenterString(15)));
+                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(20), "".CenterString(30)));
                     streamWriter.Write($"\nĐường đi:{PrintWayToFile(t, tuple, s1, e)}");
                     return;
                 }
@@ -256,7 +256,7 @@ namespace AI_algorithm
                     foreach (var val in list)
                         stack.Push(new Tuple<string, string>(s, val));
                 }
-                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list) : "").CenterString(15), string.Join(",", stack.Select(x => x.Item2).ToArray()).CenterString(15)));
+                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list) : "").CenterString(20), string.Join(",", stack.Select(x => x.Item2).ToArray()).CenterString(30)));
             }
             streamWriter.WriteLine($"\nKhông tìm thấy đường");
         }
@@ -301,7 +301,7 @@ namespace AI_algorithm
             LinkedList<Tuple<string, string>> queue = new LinkedList<Tuple<string, string>>();
 
             string Format = "| {0} | {1} | {2} |";
-            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(15), "Hàng Đợi".CenterString(15)));
+            streamWriter.WriteLine(String.Format(Format, "Đỉnh".CenterString(6), "Đỉnh Kề".CenterString(20), "Hàng Đợi".CenterString(30)));
 
             List<Tuple<string, string>> t = new List<Tuple<string, string>>();
 
@@ -316,7 +316,7 @@ namespace AI_algorithm
                 s = tuple.Item2;
                 if (s == e)
                 {
-                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(15), "".CenterString(15)));
+                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(20), "".CenterString(30)));
                     streamWriter.Write($"\nĐường đi:{PrintWayToFile(t, tuple, s1, e)}");
                     return;
                 }
@@ -331,7 +331,7 @@ namespace AI_algorithm
                 }
 
                 queue = new LinkedList<Tuple<string, string>>(queue.OrderBy(x => w[x.Item2]).ToArray());
-                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list) : "").CenterString(15), string.Join(",", queue.Select(x => x.Item2).ToArray()).CenterString(15)));
+                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (list != null ? string.Join(",", list.Select(x=>x+w[x].ToString())) : "").CenterString(20), string.Join(",", queue.Select(x => x.Item2 + w[x.Item2].ToString()).ToArray()).CenterString(30)));
             }
             streamWriter.WriteLine($"\nKhông tìm thấy đường");
         }
@@ -345,7 +345,7 @@ namespace AI_algorithm
             List<Tuple<string, string>> t = new List<Tuple<string, string>>();
 
             string Format = "| {0} | {1} | {2} | {3} |";
-            streamWriter.WriteLine(String.Format(Format, "Phát triển TT".CenterString(6), "Trạng thái kề".CenterString(15), "Danh sách L1".CenterString(15), "Danh sách L".CenterString(15)));
+            streamWriter.WriteLine(String.Format(Format, "Phát triển TT".CenterString(15), "Trạng thái kề".CenterString(20), "Danh sách L1".CenterString(20), "Danh sách L".CenterString(30)));
 
             queue.AddFirst(new Tuple<string, string>(s, s));
 
@@ -358,22 +358,22 @@ namespace AI_algorithm
                 s = tuple.Item2;
                 if (s == e)
                 {
-                    streamWriter.WriteLine(String.Format(Format, s.CenterString(6), "TTKT-DỪNG".CenterString(15), "".CenterString(30)));
+                    streamWriter.WriteLine(String.Format(Format, s.CenterString(15), "TTKT-DỪNG".CenterString(20), "".CenterString(20), "".CenterString(30)));
                     streamWriter.Write($"\nĐường đi:{PrintWayToFile(t, tuple, s1, e)}");
                     return;
                 }
                 LinkedList<string> listSort = new LinkedList<string>();
-                IEnumerable<string> list;
+                IEnumerable<string> list = new List<string>(); ;
                 if (_adj.TryGetValue(s, out LinkedList<Tuple<string, int>> outlist))
                 {
                     list = outlist.Select(x => x.Item1);
-                    listSort = new LinkedList<string>(listtest.OrderByDescending(x => w[x]).ToArray());
+                    listSort = new LinkedList<string>(list.OrderByDescending(x => w[x]).ToArray());
 
                     foreach (var val in listSort)
                         queue.AddFirst(new Tuple<string, string>(s, val));
                 }
 
-                streamWriter.WriteLine(String.Format(Format, s.CenterString(6), (listSort != null ? string.Join(",", listSort) : "").CenterString(15), (listSort != null ? string.Join(",", listSort) : "").CenterString(15), string.Join(",", queue.Select(x => x.Item2).ToArray()).CenterString(15)));
+                streamWriter.WriteLine(String.Format(Format, s.CenterString(15), (list != null ? string.Join(",", list.Select(x=>x+w[x].ToString())) : "").CenterString(20), (listSort != null ? string.Join(",", listSort.Select(x => x + w[x].ToString())) : "").CenterString(20), string.Join(",", queue.Select(x => x.Item2+ w[x.Item2].ToString()).ToArray()).CenterString(30)));
             }
             streamWriter.WriteLine($"\nKhông tìm thấy đường");
         }
